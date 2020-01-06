@@ -2,10 +2,7 @@ package com.codecool.recipeme.model;
 
 import com.codecool.recipeme.model.generated.IngredientsItem;
 import com.codecool.recipeme.model.generated.Recipe;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,10 +17,13 @@ public class ShoppingCart {
     @GeneratedValue
     Long id;
 
+    private String name;
+
     @OneToOne(mappedBy = "shoppingCart")
     private User user;
 
     @OneToMany
+    @Singular
     private List<IngredientsItem> ingredients;
 
     @OneToMany

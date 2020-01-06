@@ -3,9 +3,9 @@ package com.codecool.recipeme;
 import com.codecool.recipeme.model.Favourite;
 import com.codecool.recipeme.model.ShoppingCart;
 import com.codecool.recipeme.model.User;
-import com.codecool.recipeme.repository.FavouriteRepository;
-import com.codecool.recipeme.repository.ShoppingCartRepository;
-import com.codecool.recipeme.repository.UserRepository;
+import com.codecool.recipeme.model.generated.IngredientsItem;
+import com.codecool.recipeme.model.generated.Recipe;
+import com.codecool.recipeme.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,6 +22,12 @@ public class RecipeMeApplication {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    RecipeRepository recipeRepository;
+
+     @Autowired
+    IngredientsItemRepository ingredientsItemRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(RecipeMeApplication.class, args);
     }
@@ -30,11 +36,23 @@ public class RecipeMeApplication {
     @Profile("production")
     public CommandLineRunner init() {
         return args -> {
-            ShoppingCart shoppingCart = new ShoppingCart();
+            Recipe recipe = Recipe.builder()
+                    .label("pho")
+                    .build();
+            recipeRepository.saveAndFlush(recipe);
+            IngredientsItem ing = IngredientsItem.builder()
+                    .text("só")
+                    .recipe(recipe)
+                    .build();
+            ingredientsItemRepository.saveAndFlush(ing);
+            ShoppingCart shoppingCart = ShoppingCart.builder()
+                    .ingredient(ing)
+                    .build();
             shoppingCartRepository.saveAndFlush(shoppingCart);
             User user = User.builder()
                     .name("Panna")
                     .shoppingCart(shoppingCart)
+                    .favourite(recipe)
                     .build();
             userRepository.saveAndFlush(user);
         };

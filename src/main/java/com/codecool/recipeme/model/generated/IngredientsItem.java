@@ -1,6 +1,7 @@
 package com.codecool.recipeme.model.generated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 
 import javax.annotation.Generated;
 import javax.persistence.Entity;
@@ -8,13 +9,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+@Builder
 @Entity
 @Generated("com.robohorse.robopojogenerator")
 public class IngredientsItem {
 
     @Id
     @GeneratedValue
-    long id;
+    Long id;
 
     @ManyToOne()
     Recipe recipe;

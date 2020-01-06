@@ -1,10 +1,7 @@
 package com.codecool.recipeme.model;
 
 import com.codecool.recipeme.model.generated.Recipe;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,6 +22,7 @@ public class User {
     private String password;
 
     @ManyToMany
+    @Singular
     private List<Recipe> favourites;
 
     @OneToOne
