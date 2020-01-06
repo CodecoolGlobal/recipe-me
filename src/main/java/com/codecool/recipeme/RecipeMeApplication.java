@@ -2,8 +2,10 @@ package com.codecool.recipeme;
 
 import com.codecool.recipeme.model.Favourite;
 import com.codecool.recipeme.model.ShoppingCart;
+import com.codecool.recipeme.model.User;
 import com.codecool.recipeme.repository.FavouriteRepository;
 import com.codecool.recipeme.repository.ShoppingCartRepository;
+import com.codecool.recipeme.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +20,7 @@ public class RecipeMeApplication {
     ShoppingCartRepository shoppingCartRepository;
 
     @Autowired
-    FavouriteRepository favouriteRepository;
+    UserRepository userRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(RecipeMeApplication.class, args);
@@ -30,8 +32,11 @@ public class RecipeMeApplication {
         return args -> {
             ShoppingCart shoppingCart = new ShoppingCart();
             shoppingCartRepository.saveAndFlush(shoppingCart);
-            Favourite favourite = new Favourite();
-            favouriteRepository.saveAndFlush(favourite);
+            User user = User.builder()
+                    .name("Panna")
+                    .shoppingCart(shoppingCart)
+                    .build();
+            userRepository.saveAndFlush(user);
         };
     }
 }

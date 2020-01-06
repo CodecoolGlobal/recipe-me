@@ -1,5 +1,6 @@
 package com.codecool.recipeme.model;
 
+import com.codecool.recipeme.model.generated.IngredientsItem;
 import com.codecool.recipeme.model.generated.Recipe;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,13 @@ public class ShoppingCart {
     @GeneratedValue
     Long id;
 
-    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "shoppingCart")
+    private User user;
+
+    @OneToMany
+    private List<IngredientsItem> ingredients;
+
+    @OneToMany
     List<Recipe> recipes;
 
 }
