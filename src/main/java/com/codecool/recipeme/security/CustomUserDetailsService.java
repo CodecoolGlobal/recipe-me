@@ -3,7 +3,7 @@ package com.codecool.recipeme.security;
 
 import com.codecool.recipeme.model.RecipeMeUser;
 import org.springframework.security.core.userdetails.User;
-import com.codecool.recipeme.repository.UserRepository;
+import com.codecool.recipeme.repository.RecipeMeUserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UserRepository users;
+    private RecipeMeUserRepository users;
 
-    public CustomUserDetailsService(UserRepository users) {
+    public CustomUserDetailsService(RecipeMeUserRepository users) {
         this.users = users;
     }
 

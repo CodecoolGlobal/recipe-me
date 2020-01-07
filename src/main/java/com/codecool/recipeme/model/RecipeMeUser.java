@@ -26,7 +26,7 @@ public class RecipeMeUser {
     @Singular
     private List<Recipe> favourites;
 
-    @OneToOne
+    @OneToOne(mappedBy = "recipeMeUser")
     private ShoppingCart shoppingCart;
 
     @ElementCollection

@@ -2,8 +2,9 @@ package com.codecool.recipeme.controller;
 
 
 import com.codecool.recipeme.model.UserCredentials;
-import com.codecool.recipeme.repository.UserRepository;
+import com.codecool.recipeme.repository.RecipeMeUserRepository;
 import com.codecool.recipeme.security.JwtTokenServices;
+import com.codecool.recipeme.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/auth/")
 public class AuthController {
 
-    public AuthController(AuthenticationManager authenticationManager, JwtTokenServices jwtTokenServices, UserRepository users) {
+    public AuthController(AuthenticationManager authenticationManager, JwtTokenServices jwtTokenServices, RecipeMeUserRepository users) {
 
         passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         this.authenticationManager = authenticationManager;
@@ -34,7 +35,10 @@ public class AuthController {
     }
 
      @Autowired
-    UserRepository userRepository;
+     RecipeMeUserRepository recipeMeUserRepository;
+
+    @Autowired
+    RegistrationService registrationService;
 
     private final AuthenticationManager authenticationManager;
 
@@ -46,7 +50,8 @@ public class AuthController {
     public void registration(@RequestBody UserCredentials user) {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println(user.getUsername() + " " + user.getPassword());
+        registrationService.registerNewRecipeMeUser(user);
+
     }
 
     @PostMapping("/signin")

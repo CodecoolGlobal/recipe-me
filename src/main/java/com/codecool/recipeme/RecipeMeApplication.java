@@ -19,19 +19,19 @@ public class RecipeMeApplication {
     ShoppingCartRepository shoppingCartRepository;
 
     @Autowired
-    UserRepository userRepository;
+    RecipeMeUserRepository recipeMeUserRepository;
 
     @Autowired
     RecipeRepository recipeRepository;
 
-     @Autowired
+    @Autowired
     IngredientsItemRepository ingredientsItemRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(RecipeMeApplication.class, args);
     }
 
-    @Bean
+    /*@Bean
     @Profile("production")
     public CommandLineRunner init() {
         return args -> {
@@ -53,7 +53,7 @@ public class RecipeMeApplication {
                     .shoppingCart(shoppingCart)
                     .favourite(recipe)
                     .build();
-            userRepository.saveAndFlush(recipeMeUser);
+            recipeMeUserRepository.saveAndFlush(recipeMeUser);
         };
-    }
+    }*/
 }

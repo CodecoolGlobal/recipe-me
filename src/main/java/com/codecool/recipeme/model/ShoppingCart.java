@@ -19,7 +19,7 @@ public class ShoppingCart {
 
     private String name;
 
-    @OneToOne(mappedBy = "shoppingCart")
+    @OneToOne
     private RecipeMeUser recipeMeUser;
 
     @OneToMany
