@@ -1,6 +1,8 @@
 package com.codecool.recipeme.security;
 
-import com.codecool.recipeme.model.User;
+
+import com.codecool.recipeme.model.RecipeMeUser;
+import org.springframework.security.core.userdetails.User;
 import com.codecool.recipeme.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,16 +26,10 @@ public class CustomUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = users.findByName(username)
+        RecipeMeUser recipeMeUser = users.findByName(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found"));
 
-        /*return new User(user.getName(), user.getPassword(),
-                user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
-        */
-        return User.builder()
-                .name(user.getName())
-                .password(user.getPassword())
-                .roles(user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()))
-                .build();
+        return new User(recipeMeUser.getName(), recipeMeUser.getPassword(),
+                recipeMeUser.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
     }
 }

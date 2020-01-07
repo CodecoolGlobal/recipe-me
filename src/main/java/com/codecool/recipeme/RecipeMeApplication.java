@@ -1,8 +1,7 @@
 package com.codecool.recipeme;
 
-import com.codecool.recipeme.model.Favourite;
+import com.codecool.recipeme.model.RecipeMeUser;
 import com.codecool.recipeme.model.ShoppingCart;
-import com.codecool.recipeme.model.User;
 import com.codecool.recipeme.model.generated.IngredientsItem;
 import com.codecool.recipeme.model.generated.Recipe;
 import com.codecool.recipeme.repository.*;
@@ -49,12 +48,12 @@ public class RecipeMeApplication {
                     .ingredient(ing)
                     .build();
             shoppingCartRepository.saveAndFlush(shoppingCart);
-            User user = User.builder()
+            RecipeMeUser recipeMeUser = RecipeMeUser.builder()
                     .name("Panna")
                     .shoppingCart(shoppingCart)
                     .favourite(recipe)
                     .build();
-            userRepository.saveAndFlush(user);
+            userRepository.saveAndFlush(recipeMeUser);
         };
     }
 }

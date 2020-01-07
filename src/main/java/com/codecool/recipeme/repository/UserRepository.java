@@ -1,11 +1,11 @@
 package com.codecool.recipeme.repository;
 
-import com.codecool.recipeme.model.User;
+import com.codecool.recipeme.model.RecipeMeUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<RecipeMeUser, Long> {
 
-    Optional<User> findByName(String name);
+    Optional<RecipeMeUser> findByName(String name);
 }

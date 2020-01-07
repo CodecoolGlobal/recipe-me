@@ -20,7 +20,7 @@ public class ShoppingCart {
     private String name;
 
     @OneToOne(mappedBy = "shoppingCart")
-    private User user;
+    private RecipeMeUser recipeMeUser;
 
     @OneToMany
     @Singular

@@ -1,7 +1,6 @@
 package com.codecool.recipeme.controller;
 
 
-import com.codecool.recipeme.model.User;
 import com.codecool.recipeme.model.UserCredentials;
 import com.codecool.recipeme.repository.UserRepository;
 import com.codecool.recipeme.security.JwtTokenServices;
