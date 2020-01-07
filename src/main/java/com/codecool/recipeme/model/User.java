@@ -4,6 +4,7 @@ import com.codecool.recipeme.model.generated.Recipe;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -27,5 +28,9 @@ public class User {
 
     @OneToOne
     private ShoppingCart shoppingCart;
+
+    @ElementCollection
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
 
 }
