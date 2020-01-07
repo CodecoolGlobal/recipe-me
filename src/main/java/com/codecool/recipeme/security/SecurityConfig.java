@@ -23,13 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().disable()
                 .csrf().disable()
+                .cors().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers("/auth/signin").permitAll()
                 .antMatchers("/auth/registration").permitAll() // allowed by anyone
-                .antMatchers(HttpMethod.GET, "/vehicles/**").authenticated() // allowed only when signed in
-                .antMatchers(HttpMethod.DELETE, "/vehicles/**").hasRole("ADMIN") // allowed if signed in with ADMIN role
                 .anyRequest().denyAll() // anything else is denied
                 .and()
                 .addFilterBefore(new JwtTokenFilter(jwtTokenServices), UsernamePasswordAuthenticationFilter.class);
