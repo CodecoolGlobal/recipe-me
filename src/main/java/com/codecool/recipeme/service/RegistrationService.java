@@ -22,18 +22,17 @@ public class RegistrationService {
 
     public void registerNewRecipeMeUser(UserCredentials user) {
 
+        ShoppingCart shoppingCart = new ShoppingCart();
+
         RecipeMeUser recipeMeUser = RecipeMeUser.builder()
                 .name(user.getUsername())
                 .password(user.getPassword())
                 .roles(Arrays.asList("ROLE_USER"))
+                .shoppingCart(shoppingCart)
                 .build();
 
-        ShoppingCart shoppingCart = ShoppingCart.builder()
-                .recipeMeUser(recipeMeUser)
-                .build();
-
+        shoppingCart.setRecipeMeUser(recipeMeUser);
 
         recipeMeUserRepository.saveAndFlush(recipeMeUser);
-        shoppingCartRepository.saveAndFlush(shoppingCart);
     }
 }

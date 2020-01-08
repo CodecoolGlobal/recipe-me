@@ -26,7 +26,7 @@ public class RecipeMeUser {
     @Singular
     private List<Recipe> favourites;
 
-    @OneToOne(mappedBy = "recipeMeUser")
+    @OneToOne(mappedBy = "recipeMeUser", cascade = CascadeType.PERSIST)
     private ShoppingCart shoppingCart;
 
     @ElementCollection

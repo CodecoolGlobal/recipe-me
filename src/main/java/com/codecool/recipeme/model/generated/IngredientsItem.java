@@ -9,14 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-@Builder
 @Entity
 @Generated("com.robohorse.robopojogenerator")
 public class IngredientsItem {
 
     @Id
     @GeneratedValue
-    Long id;
+    long id;
 
     @ManyToOne()
     Recipe recipe;

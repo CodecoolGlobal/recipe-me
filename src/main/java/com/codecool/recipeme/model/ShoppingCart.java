@@ -17,8 +17,6 @@ public class ShoppingCart {
     @GeneratedValue
     Long id;
 
-    private String name;
-
     @OneToOne
     private RecipeMeUser recipeMeUser;
 

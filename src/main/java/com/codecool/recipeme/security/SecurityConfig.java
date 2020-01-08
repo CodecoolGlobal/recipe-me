@@ -24,14 +24,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .csrf().disable()
                 .cors().and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/auth/signin").permitAll()
-                .antMatchers("/auth/registration").permitAll() // allowed by anyone
-                .anyRequest().denyAll() // anything else is denied
-                .and()
+                .antMatchers("/auth/registration").permitAll()
+                .antMatchers("/search").permitAll()// allowed by anyone
+                .anyRequest().permitAll().and()
                 .addFilterBefore(new JwtTokenFilter(jwtTokenServices), UsernamePasswordAuthenticationFilter.class);
 
     }
