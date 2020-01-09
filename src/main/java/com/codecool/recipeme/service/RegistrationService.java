@@ -6,7 +6,6 @@ import com.codecool.recipeme.model.UserCredentials;
 import com.codecool.recipeme.repository.RecipeMeUserRepository;
 import com.codecool.recipeme.repository.ShoppingCartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -30,8 +29,6 @@ public class RegistrationService {
                 .roles(Arrays.asList("ROLE_USER"))
                 .shoppingCart(shoppingCart)
                 .build();
-
-        shoppingCart.setRecipeMeUser(recipeMeUser);
 
         recipeMeUserRepository.saveAndFlush(recipeMeUser);
     }

@@ -1,11 +1,11 @@
 package com.codecool.recipeme.controller;
 
+import com.codecool.recipeme.model.RMRecipe;
 import com.codecool.recipeme.model.RecipeMeUser;
 import com.codecool.recipeme.model.generated.Recipe;
 import com.codecool.recipeme.service.FavouriteService;
+import com.codecool.recipeme.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,15 +19,14 @@ public class FavouriteController {
     FavouriteService favouriteService;
 
     @GetMapping
-    List<Recipe> getRecipes() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        RecipeMeUser recipeMeUser = (RecipeMeUser) authentication.getPrincipal();
-        Long userId = recipeMeUser.getId();
-        return favouriteService.getRecipesFromFavourites(userId);
+    List<RMRecipe> getRecipes() {
+        return favouriteService.getRecipesFromFavourites();
     }
 
     @PostMapping
     void addRecipe(@RequestBody Recipe recipe) {
-        favouriteService.addRecipesToFavourites(recipe);
+        RecipeMeUser recipeMeUser = Utils.getUserFromContext();
+        favouriteService.addRecipeToFavourites(recipe);
     }
+
 }

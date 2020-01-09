@@ -1,5 +1,6 @@
 package com.codecool.recipeme.controller;
 
+import com.codecool.recipeme.model.RMIngredientsItem;
 import com.codecool.recipeme.model.generated.Recipe;
 import com.codecool.recipeme.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,12 @@ public class CartController {
     ShoppingCartService shoppingCartService;
 
     @GetMapping
-    List<Recipe> getRecipes() {
-        return shoppingCartService.getRecipesFromShoppingCart();
+    List<RMIngredientsItem> getItems() {
+        return shoppingCartService.getItemsFromShoppingCart();
     }
 
     @PostMapping
-    void addRecipe(@RequestBody Recipe recipe) {
-        shoppingCartService.addRecipesToShoppingCart(recipe);
+    void addItemsToShoppingCart(@RequestBody Recipe recipe) {
+        shoppingCartService.addRecipeIngredientsToShoppingCart(recipe);
     }
 }

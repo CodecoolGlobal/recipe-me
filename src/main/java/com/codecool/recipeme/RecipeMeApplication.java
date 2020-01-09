@@ -1,10 +1,9 @@
 package com.codecool.recipeme;
 
-import com.codecool.recipeme.model.Favourite;
+import com.codecool.recipeme.model.RMIngredientsItem;
+import com.codecool.recipeme.model.RMRecipe;
 import com.codecool.recipeme.model.RecipeMeUser;
 import com.codecool.recipeme.model.ShoppingCart;
-import com.codecool.recipeme.model.generated.IngredientsItem;
-import com.codecool.recipeme.model.generated.Recipe;
 import com.codecool.recipeme.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -29,14 +28,6 @@ public class RecipeMeApplication {
     @Autowired
     RecipeRepository recipeRepository;
 
-    @Autowired
-    IngredientsItemRepository ingredientsItemRepository;
-
-    @Autowired
-    FavouriteRepository favouriteRepository;
-
-
-
     public static void main(String[] args) {
         SpringApplication.run(RecipeMeApplication.class, args);
     }
@@ -47,24 +38,23 @@ public class RecipeMeApplication {
         return args -> {
             PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-            Favourite fav = Favourite.builder()
-                    .build();
+            RMIngredientsItem rmIngredientsItem = new RMIngredientsItem();
+            rmIngredientsItem.setText("some coriander");
 
-            favouriteRepository.saveAndFlush(fav);
-
-            Recipe recipe = Recipe.builder()
+            RMRecipe recipe = RMRecipe.builder()
                     .label("pho")
-                    .favourite(fav)
+                    .ingredient(rmIngredientsItem)
                     .build();
 
-            recipeRepository.saveAndFlush(recipe);
-
+            ShoppingCart shoppingCart = new ShoppingCart();
+            shoppingCart.addIngredient(rmIngredientsItem);
 
             RecipeMeUser admin = RecipeMeUser.builder()
                     .name("admin")
                     .roles(Arrays.asList("ADMIN"))
                     .password(passwordEncoder.encode("admin"))
-                    .favourites(Arrays.asList(recipe))
+                    .favourite(recipe)
+                    .shoppingCart(shoppingCart)
                     .build();
 
             recipeMeUserRepository.saveAndFlush(admin);

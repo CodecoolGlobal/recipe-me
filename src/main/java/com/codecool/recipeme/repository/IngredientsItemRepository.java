@@ -1,7 +1,7 @@
 package com.codecool.recipeme.repository;
 
-import com.codecool.recipeme.model.generated.IngredientsItem;
+import com.codecool.recipeme.model.RMIngredientsItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IngredientsItemRepository extends JpaRepository<IngredientsItem, Long> {
+public interface IngredientsItemRepository extends JpaRepository<RMIngredientsItem, Long> {
 }

@@ -1,13 +1,7 @@
 package com.codecool.recipeme.repository;
 
-import com.codecool.recipeme.model.generated.Recipe;
+import com.codecool.recipeme.model.RMRecipe;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
-public interface RecipeRepository extends JpaRepository<Recipe, Long> {
-    List<Recipe> findAllByShoppingCartId(Long id);
-
-    List<Recipe> findAllByFavouriteId(Long id);
-
+public interface RecipeRepository extends JpaRepository<RMRecipe, Long> {
 }

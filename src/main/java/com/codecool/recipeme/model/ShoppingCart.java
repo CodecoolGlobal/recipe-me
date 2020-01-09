@@ -1,11 +1,10 @@
 package com.codecool.recipeme.model;
 
-import com.codecool.recipeme.model.generated.IngredientsItem;
-import com.codecool.recipeme.model.generated.Recipe;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -17,14 +16,15 @@ public class ShoppingCart {
     @GeneratedValue
     Long id;
 
-    @OneToOne
-    private RecipeMeUser recipeMeUser;
-
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @Singular
-    private List<IngredientsItem> ingredients;
+    private Set<RMIngredientsItem> ingredients;
 
-    @OneToMany
-    List<Recipe> recipes;
+    public void addIngredient(RMIngredientsItem rmIngredientsItem){
+        if (ingredients == null) {
+            ingredients = new HashSet<>();
+        }
+        ingredients.add(rmIngredientsItem);
+    }
 
 }

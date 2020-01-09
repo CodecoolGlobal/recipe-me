@@ -1,11 +1,12 @@
 package com.codecool.recipeme.model;
 
-import com.codecool.recipeme.model.generated.Recipe;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -22,11 +23,11 @@ public class RecipeMeUser {
 
     private String password;
 
-    @ManyToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     @Singular
-    private List<Recipe> favourites;
+    private Set<RMRecipe> favourites = new HashSet<>();
 
-    @OneToOne(mappedBy = "recipeMeUser", cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
 
     @ElementCollection
