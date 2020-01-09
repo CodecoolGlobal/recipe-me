@@ -6,7 +6,10 @@ import com.codecool.recipeme.model.generated.Recipe;
 import com.codecool.recipeme.repository.RecipeMeUserRepository;
 import com.codecool.recipeme.repository.RecipeRepository;
 import com.codecool.recipeme.util.Utils;
+import com.codecool.recipeme.util.SessionData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

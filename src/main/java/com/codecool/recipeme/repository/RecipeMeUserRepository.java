@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface RecipeMeUserRepository extends JpaRepository<RecipeMeUser, Long> {
 
     Optional<RecipeMeUser> findByName(String name);
+
 }
