@@ -1,15 +1,14 @@
 package com.codecool.recipeme.service;
 
+import com.codecool.recipeme.model.RMIngredientsItem;
 import com.codecool.recipeme.model.RMRecipe;
 import com.codecool.recipeme.model.RecipeMeUser;
 import com.codecool.recipeme.model.generated.Recipe;
+import com.codecool.recipeme.repository.IngredientsItemRepository;
 import com.codecool.recipeme.repository.RecipeMeUserRepository;
 import com.codecool.recipeme.repository.RecipeRepository;
 import com.codecool.recipeme.util.Utils;
-import com.codecool.recipeme.util.SessionData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -26,21 +25,35 @@ public class FavouriteService {
     @Autowired
     RecipeMeUserRepository recipeMeUserRepository;
 
-    public List<RMRecipe> getRecipesFromFavourites() {
-        RecipeMeUser user = Utils.getUserFromContext();
-        Optional<RecipeMeUser> recipeMeUser = recipeMeUserRepository.findByName(user.getName());
-        if (recipeMeUser.isEmpty()) {
-            return new ArrayList<>();
+    @Autowired
+    IngredientsItemRepository ingredientsItemRepository;
+
+    @Autowired
+    Utils utils;
+
+    public Set<RMRecipe> getRecipesFromFavourites() {
+        RecipeMeUser user = utils.getUserFromContext();
+
+        if (user == null) {
+            return null;
         }
-        return new ArrayList<>(recipeMeUser.get().getFavourites());
+        Set<RMRecipe> recipes = user.getFavourites();
+        return recipes;
     }
 
     public void addRecipeToFavourites(Recipe recipe) {
         RMRecipe rmRecipe = new RMRecipe(recipe); // TODO here or in controller?
-        RecipeMeUser recipeMeUser = Utils.getUserFromContext();
-        RecipeMeUser user = recipeMeUserRepository.findByName(recipeMeUser.getName()).get();
-        user.getFavourites().add(rmRecipe);
-        recipeMeUserRepository.saveAndFlush(user);
+        RecipeMeUser recipeMeUser = utils.getUserFromContext();
+        recipeRepository.saveAndFlush(rmRecipe);
+        for (RMIngredientsItem ingredientsItem: rmRecipe.getIngredients()) {
+            ingredientsItemRepository.saveAndFlush(ingredientsItem);
+        }
+        if (recipeMeUser != null) {
+
+            recipeMeUser.addFavouriteRecipe(rmRecipe);
+            recipeMeUserRepository.saveAndFlush(recipeMeUser);
+        }
+        
     }
 }
 

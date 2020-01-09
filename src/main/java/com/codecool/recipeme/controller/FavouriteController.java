@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -19,13 +20,12 @@ public class FavouriteController {
     FavouriteService favouriteService;
 
     @GetMapping
-    List<RMRecipe> getRecipes() {
+    Set<RMRecipe> getRecipes() {
         return favouriteService.getRecipesFromFavourites();
     }
 
     @PostMapping
     void addRecipe(@RequestBody Recipe recipe) {
-        RecipeMeUser recipeMeUser = Utils.getUserFromContext();
         favouriteService.addRecipeToFavourites(recipe);
     }
 

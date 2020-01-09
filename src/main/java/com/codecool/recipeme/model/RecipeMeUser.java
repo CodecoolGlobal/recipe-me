@@ -34,4 +34,8 @@ public class RecipeMeUser {
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
+    public void addFavouriteRecipe(RMRecipe recipe) {
+        favourites.add(recipe);
+    }
+
 }

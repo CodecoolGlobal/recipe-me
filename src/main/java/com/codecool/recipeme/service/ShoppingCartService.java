@@ -4,7 +4,9 @@ import com.codecool.recipeme.model.RMIngredientsItem;
 import com.codecool.recipeme.model.RMRecipe;
 import com.codecool.recipeme.model.RecipeMeUser;
 import com.codecool.recipeme.model.ShoppingCart;
+import com.codecool.recipeme.model.generated.IngredientsItem;
 import com.codecool.recipeme.model.generated.Recipe;
+import com.codecool.recipeme.repository.IngredientsItemRepository;
 import com.codecool.recipeme.repository.RecipeMeUserRepository;
 import com.codecool.recipeme.repository.RecipeRepository;
 import com.codecool.recipeme.repository.ShoppingCartRepository;
@@ -29,6 +31,13 @@ public class ShoppingCartService {
     @Autowired
     RecipeMeUserRepository recipeMeUserRepository;
 
+    @Autowired
+    IngredientsItemRepository ingredientsItemRepository;
+
+    @Autowired
+    Utils utils;
+
+
     public List<RMIngredientsItem> getItemsFromShoppingCart() {
         ShoppingCart shoppingCart = getActualCart();
         return shoppingCart == null ? new ArrayList<>() : new ArrayList<>(shoppingCart.getIngredients());
@@ -37,11 +46,19 @@ public class ShoppingCartService {
     @Transactional
     public void addRecipeIngredientsToShoppingCart(Recipe recipe) {
         RMRecipe rmRecipe = new RMRecipe(recipe);
-        getItemsFromShoppingCart().addAll(rmRecipe.getIngredients());
+        RecipeMeUser user = utils.getUserFromContext();
+        ShoppingCart shoppingCart = user.getShoppingCart();
+        //getItemsFromShoppingCart().addAll(rmRecipe.getIngredients());
+        for (RMIngredientsItem rmIngredientsItem: rmRecipe.getIngredients()) {
+            ingredientsItemRepository.saveAndFlush(rmIngredientsItem);
+            shoppingCart.addIngredient(rmIngredientsItem);
+        }
+        shoppingCartRepository.saveAndFlush(shoppingCart);
+
     }
 
     private ShoppingCart getActualCart() {
-        RecipeMeUser user = Utils.getUserFromContext();
+        RecipeMeUser user = utils.getUserFromContext();
         Optional<RecipeMeUser> recipeMeUser = recipeMeUserRepository.findByName(user.getName());
         return recipeMeUser.isEmpty() ? null : recipeMeUser.get().getShoppingCart();
     }
