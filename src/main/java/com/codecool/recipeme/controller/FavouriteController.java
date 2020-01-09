@@ -20,10 +20,7 @@ public class FavouriteController {
 
     @GetMapping
     List<Recipe> getRecipes() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        RecipeMeUser recipeMeUser = (RecipeMeUser) authentication.getPrincipal();
-        Long userId = recipeMeUser.getId();
-        return favouriteService.getRecipesFromFavourites(userId);
+        return favouriteService.getRecipesFromFavourites();
     }
 
     @PostMapping
