@@ -1,5 +1,6 @@
 package com.codecool.recipeme;
 
+import com.codecool.recipeme.model.Favourite;
 import com.codecool.recipeme.model.RecipeMeUser;
 import com.codecool.recipeme.model.ShoppingCart;
 import com.codecool.recipeme.model.generated.IngredientsItem;
@@ -11,6 +12,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Arrays;
 
 @SpringBootApplication
 public class RecipeMeApplication {
@@ -27,33 +32,42 @@ public class RecipeMeApplication {
     @Autowired
     IngredientsItemRepository ingredientsItemRepository;
 
+    @Autowired
+    FavouriteRepository favouriteRepository;
+
+
+
     public static void main(String[] args) {
         SpringApplication.run(RecipeMeApplication.class, args);
     }
 
-    /*@Bean
+    @Bean
     @Profile("production")
     public CommandLineRunner init() {
         return args -> {
+            PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
+            Favourite fav = Favourite.builder()
+                    .build();
+
+            favouriteRepository.saveAndFlush(fav);
+
             Recipe recipe = Recipe.builder()
                     .label("pho")
+                    .favourite(fav)
                     .build();
+
             recipeRepository.saveAndFlush(recipe);
-            IngredientsItem ing = IngredientsItem.builder()
-                    .text("só")
-                    .recipe(recipe)
+
+
+            RecipeMeUser admin = RecipeMeUser.builder()
+                    .name("admin")
+                    .roles(Arrays.asList("ADMIN"))
+                    .password(passwordEncoder.encode("admin"))
+                    .favourites(Arrays.asList(recipe))
                     .build();
-            ingredientsItemRepository.saveAndFlush(ing);
-            ShoppingCart shoppingCart = ShoppingCart.builder()
-                    .ingredient(ing)
-                    .build();
-            shoppingCartRepository.saveAndFlush(shoppingCart);
-            RecipeMeUser recipeMeUser = RecipeMeUser.builder()
-                    .name("Panna")
-                    .shoppingCart(shoppingCart)
-                    .favourite(recipe)
-                    .build();
-            recipeMeUserRepository.saveAndFlush(recipeMeUser);
+
+            recipeMeUserRepository.saveAndFlush(admin);
         };
-    }*/
+    }
 }

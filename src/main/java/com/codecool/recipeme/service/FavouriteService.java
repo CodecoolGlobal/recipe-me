@@ -18,8 +18,8 @@ public class FavouriteService {
     @Autowired
     RecipeRepository recipeRepository;
 
-    public List<Recipe> getRecipesFromFavourites() {
-        return recipeRepository.findAllByFavouriteId(2L);
+    public List<Recipe> getRecipesFromFavourites(Long userId) {
+        return recipeRepository.findAllByFavouriteId(userId);
     }
 
     public void addRecipesToFavourites(Recipe recipe) {
