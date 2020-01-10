@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class ShoppingCartService {
@@ -38,9 +39,9 @@ public class ShoppingCartService {
     Utils utils;
 
 
-    public List<RMIngredientsItem> getItemsFromShoppingCart() {
+    public Set<RMIngredientsItem> getItemsFromShoppingCart() {
         ShoppingCart shoppingCart = getActualCart();
-        return shoppingCart == null ? new ArrayList<>() : new ArrayList<>(shoppingCart.getIngredients());
+        return shoppingCart.getIngredients();
     }
 
     @Transactional

@@ -18,12 +18,9 @@ public class ShoppingCart {
 
     @OneToMany(cascade = CascadeType.ALL)
     @Singular
-    private Set<RMIngredientsItem> ingredients;
+    private Set<RMIngredientsItem> ingredients = new HashSet<>();
 
     public void addIngredient(RMIngredientsItem rmIngredientsItem){
-        if (ingredients == null) {
-            ingredients = new HashSet<>();
-        }
         ingredients.add(rmIngredientsItem);
     }
 
